@@ -1,0 +1,17 @@
+#! /bin/sh
+
+# quelques exemples de for
+
+for i in 1 5 17 66 99
+do
+   echo "i vaut $i"
+done
+
+# for v in "$@"
+# ligne ci-dessus equivalente a ligne ci-dessous
+for v 
+do 
+   echo "v vaut $v"
+done
+
+

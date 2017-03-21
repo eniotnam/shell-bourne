@@ -1,0 +1,55 @@
+#! /bin/sh
+# deplacem rep1 rep2 fichier1 [ fichier2 .... ]
+
+# fonction de saisie d'une reponse de type oui ou non
+# la question est passee en parametre
+saisieOouN()
+{
+while [ 1 -eq 1 ]; do
+   # on pose la question
+   echo "$1 (O ou N) ? :"
+   read rep
+   [ "$rep" = "O" ] && return 0
+   [ "$rep" = "N" ] && return 1
+   echo "Seuls O (oui) ou N (non) sont acceptes !!"
+done
+}
+
+# verification de la presence de 3 parametres au moins
+if [ $# -le 3 ]; then
+   echo "Utilisation : $0 repertoire1 repertoire2 f1 [ f2 ... ]">&2
+   exit 1
+fi
+if ! test -d "$1" ; then
+   echo "$1 n'est pas un repertoire !" >&2
+   exit 2
+fi
+if ! test -d "$2" ; then
+   echo "$2 n'est pas un repertoire !" >&2
+   exit 3
+fi
+# suppression des deux noms des repertoires
+rep1=$1
+rep2=$2
+shift 2
+for fic  # fic prend tour a tour les valeurs des parametres restants
+do
+ if test -f "$rep1/$fic" ; then
+   if test -f "$rep2/$fic" ; then
+      echo "$fic est dans $rep1 ET dans $rep2 !" >&2
+      ! saisieOouN "On ecrase $rep2/$fic" && continue
+   fi
+   mv "$rep1/$fic" "$rep2"
+ else
+   if test -f "$rep2/$fic" ; then
+      mv "$rep2/$fic" "$rep1"
+   else
+      echo "$fic n'est ni dans $rep1 ni dans $rep2 !" >&2
+      continue
+   fi
+ fi
+done
+exit 0  # tout s'est bien passe !!
+
+
+

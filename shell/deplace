@@ -1,0 +1,15 @@
+#! /bin/sh
+if [ $# -ne 2];then
+   echo "utilisation: $0 nom_de_fichier repertoire">&2
+   exit 1
+fi
+if ! test -f "$1" ; then
+   echo "$1 n'est pas un fichier !">&2
+   exit 2
+fi
+if ! test -d "$2" ; then
+   echo "$2 n'est pas un repertoire !">&2
+   exit 3
+fi
+mv "$1" "$2"
+exit 0

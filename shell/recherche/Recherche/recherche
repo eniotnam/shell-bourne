@@ -1,0 +1,34 @@
+#! /bin/sh
+# recherche repertoire nom_de_fichier
+
+sorterr()
+{
+# affiche le message d'erreur passe en parametre ($1)
+# et fait exit avec le no d'erreur ($2)
+echo "ERREUR : $1" >&2
+echo "Utilisation $0 nom_repertoire nom_fichier" >&2
+exit $2
+}
+
+[ $# -ne 2 ] && sorterr "Il faut 2 parametres et seult 2 !" 1
+[ ! -d "$1" ] && sorterr "$1 n'est pas un repertoire !" 2
+
+# on recherche
+# on modifie la variabel IFS
+IFS='
+'
+for f in `ls $1`
+do
+   # echo "lu $f"
+   if [ "$2" = "$f" ] ; then
+      if test -f "$1/$f" ; then
+         echo "le fichier $f est dans $1"
+         exit 0
+      else
+         echo "$f n'est pas un fichier dans $1"
+         exit 1 # on a trouve un elt mais ce n'est pas un fichier
+      fi
+   fi
+done
+exit 2 # aucun element du nom $2
+

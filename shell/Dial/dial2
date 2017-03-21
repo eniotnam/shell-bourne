@@ -1,0 +1,36 @@
+#! /bin/sh
+
+# exemple de dialogue en shell-script
+# en utilisant un fonction
+
+saisieFic()
+{
+while [ 1 -eq 1 ]   # boucle infinie
+do
+   echo "Taper un nom de fichier (! pour arreter) :"
+   read nomfic
+   if test -n "$nomfic" ; then
+      break
+   fi
+   echo "Vous devez saisir du texte !"
+done
+return 0
+}
+
+# boucle de saisie d'un nom de fichier avec verification si
+# ce fichier existe ou pas
+
+while [ 1 -eq 1 ]   # boucle infinie
+do
+   saisieFic
+   if [ "$nomfic" = "!" ] ; then
+      break
+   fi
+   if test -f "$nomfic" ; then
+      echo "$nomfic existe !"
+   else
+      echo "$nomfic n'existe pas"
+   fi
+done
+exit 0
+
